@@ -1,6 +1,3 @@
-# Simple CNN model for CIFAR-10
-#!pip install tensorboardcolab
-
 from tensorboardcolab import *
 
 import numpy
@@ -64,15 +61,15 @@ model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 
 # Compile model
-epochs = 1
-lrate = 0.3
+epochs = 5
+lrate = 0.5
 decay = lrate/epochs
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 print(model.summary())
 
 tensorboard = TensorBoard(log_dir="logs/{}",histogram_freq=0, write_graph=True, write_images=True)
-model.fit(X_train, y_train,validation_data=(X_test, y_test), nb_epoch=epochs, batch_size=32,callbacks=[TensorBoardColabCallback(tbc)])
+model.fit(X_train[0:2000], y_train[0:2000],validation_data=(X_test[0:2000], y_test[0:2000]), nb_epoch=epochs, batch_size=32,callbacks=[TensorBoardColabCallback(tbc)])
 # Fit the model
 #model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=epochs, batch_size=32)
 # Final evaluation of the model
